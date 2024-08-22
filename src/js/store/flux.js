@@ -2,7 +2,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 
-			contactos: []
+			contactos: [],
+
+			contact: {},
 
 		},
 
@@ -77,32 +79,38 @@ const getState = ({ getStore, getActions, setStore }) => {
 					)
 			},
 
-			eliminarContacto: (idDelContacto) => {
-				fetch(`https://playground.4geeks.com/agendas/HarryPotter/contacts/${idDelContacto}`, {
+			eliminarContacto: (id) => {
+
+				fetch(`https://playground.4geeks.com/contact/agendas/HarryPotter/contacts/${id}`, {
 					method: "DELETE",
 					headers: {
 						"Content-Type": "application/json"
-
 					},
-				});
-				setStore((prevState) => prevState.filter((store) => store.id !== id));
+				})
 
-				console.log(`contacto con ${idDelContacto} eliminado`)
-					.then((data) => {
+					.then(() => {
 						getActions().obtenerAgenda()
+						console.log(`contacto con ${id} eliminado`)
 					})
 					// .then(() => { }) este .then no hace falta porque estamos eliminando 
 					.catch((error) => console.log("No se borró nada", error))
 			},
 
-			
-			editarContacto: (idDelContacto, actualizarContacto) => {
-				fetch(`https://playground.4geeks.com/contact/agendas/HarryPotter/contacts/${idDelContacto}`, {
+
+			editarContacto: (id, name, phone, email, address) => {
+				fetch(`https://playground.4geeks.com/contact/agendas/HarryPotter/contacts/${id}`, {
 					method: "PUT",
-					body: JSON.stringify(actualizarContacto),
 					headers: {
 						"Content-Type": "application/json"
-					}
+					},
+
+					body: JSON.stringify({
+						name: name,
+						phone: phone,
+						email: email,
+						address: address
+
+					})
 				})
 					.then((resultado) => resultado.json())
 					.then((data) => {
@@ -111,6 +119,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.catch((error) => console.log(error))
 			},
+
+			saveContact: (contact) => {
+				setStore({contact: contact})
+
+			}
 		}
 	};
 }
