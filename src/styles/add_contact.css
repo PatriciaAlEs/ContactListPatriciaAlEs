@@ -1,0 +1,24 @@
+/* Contenedor de la tarjeta */
+
+/* Estilos para el formulario de agregar contacto */
+.container {
+    padding: 20px;
+}
+
+.form-row {
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.botonSubmit {
+    margin-top: 20px;
+}
+
+.backhome {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

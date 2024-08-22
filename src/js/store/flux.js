@@ -1,45 +1,117 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+
+			contactos: []
+
 		},
+
+
 		actions: {
 			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+			crearAgenda: () => {
+				fetch("https://playground.4geeks.com/contact/agendas/HarryPotter", {
+					method: "POST",
+					body: JSON.stringify(),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+					.then(resultado => {
+						if (resultado.ok) {
+							return resultado.json()
+							// recibe el resultado de la api en formato json
+						} else {
+							console.log("Error al crear la agenda")
+						}
+					})
+					.then(data => {
+						getActions().obtenerAgenda(); // cargar la lista de contactos despues de crear la agenda
+						console.log(data)
+					})
+					.catch(error => {
+						console.log("Error creando la agenda", error)
+					});
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
+			},
+
+			obtenerAgenda: () => {
+				fetch("https://playground.4geeks.com/contact/agendas/HarryPotter/contacts")
+					.then(resultado => {
+						if (resultado.ok) {
+							return resultado.json()
+						} else {
+							return getActions().crearAgenda()
+						}
+					})
+					.then(data => {
+						// Actualiza el store con los datos de contactos
+						setStore({ contactos: data.contacts });
+						console.log("Agenda actualizada:", data);
+					})
+					.catch(error => {
+						console.log("no se obtiene nada", error)
+					});
+			},
+
+			agregarContacto: (contacto) => {
+				fetch("https://playground.4geeks.com/contact/agendas/HarryPotter/contacts", {
+					method: "POST",
+					body: JSON.stringify(contacto),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+					.then((resultado) => {
+						if (resultado.ok) {
+							getActions().obtenerAgenda();
+						}
+						return resultado.json();
+					})
+					.then((data) => {
+						console.log("un contacto mas", data)
+
+					})
+					.catch(error =>
+						console.log(error)
+					)
+			},
+
+			eliminarContacto: (idDelContacto) => {
+				fetch(`https://playground.4geeks.com/agendas/HarryPotter/contacts/${idDelContacto}`, {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json"
+
+					},
 				});
+				setStore((prevState) => prevState.filter((store) => store.id !== id));
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
+				console.log(`contacto con ${idDelContacto} eliminado`)
+					.then((data) => {
+						getActions().obtenerAgenda()
+					})
+					// .then(() => { }) este .then no hace falta porque estamos eliminando 
+					.catch((error) => console.log("No se borró nada", error))
+			},
+
+			
+			editarContacto: (idDelContacto, actualizarContacto) => {
+				fetch(`https://playground.4geeks.com/contact/agendas/HarryPotter/contacts/${idDelContacto}`, {
+					method: "PUT",
+					body: JSON.stringify(actualizarContacto),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+					.then((resultado) => resultado.json())
+					.then((data) => {
+						console.log(data)
+						getActions().obtenerAgenda()
+					})
+					.catch((error) => console.log(error))
+			},
 		}
 	};
-};
-
+}
 export default getState;

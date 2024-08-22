@@ -1,0 +1,32 @@
+/* Estilo para la tarjeta de contacto */
+.contact-card {
+    display: flex;
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    background-color: rgba(255, 212, 127, 0.109);
+}
+
+/* Efecto al pasar el mouse */
+.contact-card:hover {
+    transform: scale(1.05);
+}
+
+/* Estilo para la foto de contacto */
+.contact-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 16px;
+}
+
+/* Contenedor de la información del contacto */
+.contact-info {
+    flex: 1;
+}
