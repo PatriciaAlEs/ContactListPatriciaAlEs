@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/add_contact.css";
@@ -7,8 +7,32 @@ import "../../styles/add_contact.css";
 //esta view recoge los datos y me los enseña 
 export const EditContact = () => {
 
-  const { actions } = useContext(Context);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
+  const { actions, store } = useContext(Context);
   const parametros = useParams()
+
+useEffect(()=>{
+
+if (store.contact && store.contact.id) {
+  setName(store.contact.name)
+}
+if (store.contact && store.contact.id) {
+  setPhone(store.contact.phone)
+}
+if (store.contact && store.contact.id) {
+  setEmail(store.contact.email)
+}
+if (store.contact && store.contact.id) {
+  setAddress(store.contact.address)
+}
+
+}, [] )
+
+
 
   console.log(parametros.id)
 
@@ -54,7 +78,7 @@ export const EditContact = () => {
               type="text"
               className="form-control"
               id="name"
-              value={contacto.name}
+              value={name}
               onChange={cambioInputs}
               placeholder="Aquí va tu nombre completo"
             />
@@ -66,7 +90,7 @@ export const EditContact = () => {
               type="email"
               className="form-control"
               id="email"
-              value={contacto.email}
+              value={email}
               onChange={cambioInputs}
               placeholder="Aquí va tu email"
             />
@@ -77,7 +101,7 @@ export const EditContact = () => {
               type="tel"
               className="form-control"
               id="phone"
-              value={contacto.phone}
+              value={phone}
               onChange={cambioInputs}
               placeholder="Aquí va tu teléfono"
             />
@@ -88,7 +112,7 @@ export const EditContact = () => {
               type="text"
               className="form-control"
               id="address"
-              value={contacto.address}
+              value={address}
               onChange={cambioInputs}
               placeholder="Aquí va tu dirección"
             />

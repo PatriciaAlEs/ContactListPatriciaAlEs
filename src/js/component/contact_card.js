@@ -3,7 +3,7 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
 
-const ContactCard = ({ name, email, phone, address, id }) => {
+const ContactCard = ({ contact, id }) => {
 
     const { actions } = useContext(Context);
     const navegar = useNavigate()
@@ -16,19 +16,20 @@ const ContactCard = ({ name, email, phone, address, id }) => {
                     alt="Contact Photo"
                     className="contact-photo"
                 />
-                <h3>Mago/Bruja: {name}</h3>
-                <p>Email Mágico: {email}</p>
-                <p>Ruta Polvos Flú: {phone}</p>
-                <p>Colegio de Magia y Hechicería: {address}</p>
+                <h3>Mago/Bruja: {contact.name}</h3>
+                <p>Email Mágico: {contact.email}</p>
+                <p>Ruta Polvos Flú: {contact.phone}</p>
+                <p>Colegio de Magia y Hechicería: {contact.address}</p>
                 <button className="btnBasura" onClick={() => actions.eliminarContacto(id)}>
                     <i className="fas fa-trash-alt" />
                 </button>
 
-                <button className="navegar" onClick={() => {
+                <button className="editar" onClick={() => {
+
                     actions.saveContact(contact)
-                    navegar(`/editContact/${id}`)
-                }
-                }
+                    navegar("/editContact/")
+
+                }}
                     >
                    editame
                 </button>
