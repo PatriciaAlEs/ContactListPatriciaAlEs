@@ -15,11 +15,10 @@ export const OneContact = () => {
             {/* Navbar */}
             <nav className="navbar navbar-light bg-light mb-3">
                 <Link to="/" className="navbar-brand">
-                    React Boilerplate
                 </Link>
                 <div className="ml-auto">
                     <Link to="/addContact">
-                        <button className="btn btn-primary">Check the Context in action</button>
+                        <button className="btn btn-secondary "> 📜 Añadir contacto </button>
                     </Link>
                 </div>
             </nav>

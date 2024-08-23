@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import "../../styles/add_contact.css";
 
@@ -13,57 +13,37 @@ export const EditContact = () => {
   const [address, setAddress] = useState("");
 
   const { actions, store } = useContext(Context);
-  const parametros = useParams()
-
-useEffect(()=>{
-
-if (store.contact && store.contact.id) {
-  setName(store.contact.name)
-}
-if (store.contact && store.contact.id) {
-  setPhone(store.contact.phone)
-}
-if (store.contact && store.contact.id) {
-  setEmail(store.contact.email)
-}
-if (store.contact && store.contact.id) {
-  setAddress(store.contact.address)
-}
-
-}, [] )
 
 
+  const id = store.contact?.id
 
-  console.log(parametros.id)
 
-  const [contacto, setContacto] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    address: ""
-  });
+  useEffect(() => {
 
-  // Maneja los cambios en los campos de entrada
-  const cambioInputs = (event) => {
-    setContacto({
-      ...contacto,
-      //es el estado anterior de contacto, y se le añade el nuevo valor que se está escribiendo en el input
-      //... operador de propagacion, copia las propiedas de un objeto al que se está creando
-      [event.target.id]: event.target.value,
-      //event.target.id es el id del input, y event.target.value es el valor que se está escribiendo en el input
-    });
-  };
+    if (store.contact && store.contact.id) {
+      setName(store.contact.name)
+    }
+    if (store.contact && store.contact.id) {
+      setPhone(store.contact.phone)
+    }
+    if (store.contact && store.contact.id) {
+      setEmail(store.contact.email)
+    }
+    if (store.contact && store.contact.id) {
+      setAddress(store.contact.address)
+    }
+
+  }, [])
+
+
+  
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    actions.agregarContacto(contacto);
+    actions.editarContacto(id, name, phone, email, address);
     //para que se restrablezcan los inputs a vacío después de enviar el formulario, seteamos el estado a como estaba antes   
-    setContacto({
-      name: "",
-      email: "",
-      phone: "",
-      address: ""
-    });
+
   }
 
   return (
@@ -73,13 +53,13 @@ if (store.contact && store.contact.id) {
         <div className="form-row">
           <div className="form-group p-2">
 
-            <label htmlFor="name">Nombre Completo</label>
+            <label htmlFor="name">Nombre de la persona mágica</label>
             <input
               type="text"
               className="form-control"
               id="name"
               value={name}
-              onChange={cambioInputs}
+              onChange={(e)=> {setName(e.target.value)}}
               placeholder="Aquí va tu nombre completo"
             />
 
@@ -91,7 +71,7 @@ if (store.contact && store.contact.id) {
               className="form-control"
               id="email"
               value={email}
-              onChange={cambioInputs}
+              onChange={(e) => {setEmail(e.target.value)}}
               placeholder="Aquí va tu email"
             />
           </div>
@@ -102,27 +82,27 @@ if (store.contact && store.contact.id) {
               className="form-control"
               id="phone"
               value={phone}
-              onChange={cambioInputs}
+              onChange={(e)=>{setPhone(e.target.value)}}
               placeholder="Aquí va tu teléfono"
             />
           </div>
           <div className="form-group p-2 mb-2">
-            <label htmlFor="address">Dirección</label>
+            <label htmlFor="address">  Ruta polvos Flú </label>
             <input
               type="text"
               className="form-control"
               id="address"
               value={address}
-              onChange={cambioInputs}
-              placeholder="Aquí va tu dirección"
+              onChange={(e)=>{setAddress(e.target.value)}}
+              placeholder="Aquí va tu ubicación"
             />
           </div>
           <div className="botonSubmit row p-3">
             <button
-              className="btn btn-primary"
+              className="btn btn-secondary"
               type="submit"
             // onClick={() => actions.agregarContacto()} No es necesario oprque porque ya se usa onSubmit y maneja el proceso de envío y llama a "actions.agregarContacto(contacto)"
-            >Enviar Contacto</button>
+            >  Enviar Contacto Editado ☑️</button>
           </div>
         </div>
       </form>

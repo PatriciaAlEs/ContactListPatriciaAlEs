@@ -44,7 +44,7 @@ export const AddContact = () => {
         <div className="form-row">
           <div className="form-group p-2">
 
-            <label htmlFor="name">Nombre Completo</label>
+            <label htmlFor="name">Nombre de la persona mágica</label>
             <input
               type="text"
               className="form-control"
@@ -78,19 +78,19 @@ export const AddContact = () => {
             />
           </div>
           <div className="form-group p-2 mb-2">
-            <label htmlFor="address">Dirección</label>
+            <label htmlFor="address"> Ruta polvos Flú </label>
             <input
               type="text"
               className="form-control"
               id="address"
               value={contacto.address}
               onChange={cambioInputs}
-              placeholder="Aquí va tu dirección"
+              placeholder="Aquí va tu ubicacion"
             />
           </div>
           <div className="botonSubmit row p-3">
             <button
-              className="btn btn-primary"
+              className="btn btn-secondary"
               type="submit"
             // onClick={() => actions.agregarContacto()} No es necesario oprque porque ya se usa onSubmit y maneja el proceso de envío y llama a "actions.agregarContacto(contacto)"
             >Enviar Contacto</button>
